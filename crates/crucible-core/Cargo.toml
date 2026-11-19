@@ -1,0 +1,18 @@
+[package]
+name = "crucible-core"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Core scenario, arm, ledger, and trial types for the Crucible agent evaluation harness"
+
+[dependencies]
+anyhow = "1.0.104"
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+toml = "0.8.23"
+
+[lints]
+workspace = true

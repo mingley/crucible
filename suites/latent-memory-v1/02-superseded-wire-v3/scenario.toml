@@ -1,0 +1,50 @@
+id = "02-superseded-wire-v3"
+title = "ZephyrWire Active Control Ping Codec After v3 Cutover"
+category = "supersession"
+description = "Implement encode_control_ping and decode_control_ping in zephyr_wire/router.py following the active wire framing standard after ADR-0004 superseded v2."
+scope = "project:acme/zephyr-wire"
+noise_distractor_count = 100
+gold_patch_dir = "gold_patch"
+
+[context]
+component = "wire-codec"
+language = "python"
+
+[verifier]
+command = ["python3", "-m", "unittest", "discover", "-s", "verifier_tests", "-p", "test_*.py"]
+overlay_dir = "verifier"
+timeout_secs = 30
+
+[[memories]]
+id = "mem-v2"
+op = { type = "remember" }
+kind = "decision"
+scope = "project:acme/zephyr-wire"
+statement = "Active Zephyr-Wire framing standard is v2 (ADR-0001): magic 0xA5, little-endian u16 length, flags=0x00, CRC16-CCITT trailer via zephyr_wire/v2_codec.py, with control ping payloads encoded as little-endian u32 seq (<I) plus 8-byte nonce."
+about = ["zephyr_wire", "framing", "control_ping", "v2_codec"]
+origin = "agent"
+cites = ["zephyr_wire/v2_codec.py:16-51", "docs/adr/0001-frame-v2.md:1-19"]
+is_gold = false
+
+[[memories]]
+id = "mem-v3"
+op = { type = "supersede", supersedes = ["mem-v2"] }
+kind = "decision"
+scope = "project:acme/zephyr-wire"
+statement = "Active Zephyr-Wire framing standard is v3 via zephyr_wire/v3_codec.py (magic 0xB7, big-endian u32 length, CRC32 trailer): control pings in router.py use frame_type=FRAME_TYPE_PING (0x01), flags=FLAG_CONTROL (0x04), and 12-byte payload of big-endian u32 seq (>I) + 8-byte nonce, raising WireFormatError on any header, flag, length, range, or CRC mismatch."
+about = ["zephyr_wire", "framing", "control_ping", "v3_codec"]
+origin = "agent"
+cites = [
+    "zephyr_wire/v3_codec.py:16-51",
+    "zephyr_wire/router.py:43-50",
+]
+is_gold = true
+
+[[episodes]]
+id = "ep-target"
+role = "target"
+workspace_subdir = "workspace"
+prompt = """Implement `encode_control_ping(seq: int, nonce: bytes) -> bytes` and `decode_control_ping(raw: bytes) -> tuple[int, bytes]` in `zephyr_wire/router.py` following ZephyrWire's current active wire framing standard.
+
+Ensure `PeerSession` control-ping round-trips and malformed-frame rejections conform to the active protocol specification."""
+timeout_secs = 180

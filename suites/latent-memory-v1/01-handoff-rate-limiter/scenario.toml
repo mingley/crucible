@@ -1,0 +1,50 @@
+id = "01-handoff-rate-limiter"
+title = "PulseGate Burst Carryover and Reset Header Handoff (PG-441)"
+category = "handoff"
+description = "Finish interrupted work item PG-441 across PulseGate's sliding-window limiter, burst bucket, and HTTP header formatter."
+scope = "project:acme/pulse-gate"
+noise_distractor_count = 100
+gold_patch_dir = "gold_patch"
+
+[context]
+component = "rate-limiter"
+language = "python"
+
+[verifier]
+command = ["python3", "-m", "unittest", "discover", "-s", "verifier_tests", "-p", "test_*.py"]
+overlay_dir = "verifier"
+timeout_secs = 30
+
+[[memories]]
+id = "mem-pg441-handoff"
+op = { type = "remember" }
+kind = "handoff"
+scope = "project:acme/pulse-gate"
+statement = "Handoff for PG-441 in pulse_gate: (1) in pulse_gate/sliding.py, pass idle_windows = (current_window - state.window_index) - 1 to rollover_burst_credits instead of hardcoded 0; (2) in pulse_gate/bucket.py rollover_burst_credits, clamp pool = prev_burst_credits + prev_unused_sustained to burst_cap when idle_windows == 0, to int(policy.idle_carryover_ratio * policy.burst_cap) (0.5 * burst_cap) when idle_windows == 1, and return 0 when idle_windows >= 2; (3) in pulse_gate/headers.py format_rate_headers, switch X-RateLimit-Reset-Ms from ns_to_ms_floor to ns_to_ms_ceil."
+about = ["pulse_gate", "PG-441", "rollover_burst_credits", "X-RateLimit-Reset-Ms"]
+fields = [
+    "goal=Complete PG-441 burst carryover decay and X-RateLimit-Reset-Ms ceiling rounding",
+    "done=Audited sliding.py, bucket.py, and headers.py against PulseGate architecture spec",
+    "remaining=Pass idle_windows in sliding.py, implement 0/1/>=2 decay in bucket.py, and use ns_to_ms_ceil in headers.py",
+    "next_step=Patch pulse_gate/sliding.py, pulse_gate/bucket.py, and pulse_gate/headers.py and run unit tests",
+]
+origin = "agent"
+cites = [
+    "pulse_gate/sliding.py:45-55",
+    "pulse_gate/bucket.py:22-37",
+    "pulse_gate/headers.py:14-27",
+    "docs/architecture.md:17-50",
+]
+is_gold = true
+
+[[episodes]]
+id = "ep-target"
+role = "target"
+workspace_subdir = "workspace"
+prompt = """Complete interrupted work item PG-441 in `pulse_gate`:
+
+1. Fix epoch-window rollover burst-credit carryover so carried credits follow PulseGate's idle-window decay specification across consecutive and skipped windows.
+2. Fix `X-RateLimit-Reset-Ms` header rounding so remaining window durations follow PulseGate's reset-header rounding contract.
+
+Keep existing public APIs intact and ensure unit tests pass."""
+timeout_secs = 180

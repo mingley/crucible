@@ -1,0 +1,47 @@
+id = "03-branch-scoped-applicability"
+title = "ConduitRPC v2-Binary Empty and Null-Terminated Frame Checksums"
+category = "applicability"
+description = "Fix empty-payload and raw binary frame checksum validation in conduit_rpc/transport.py under protocol=v2-binary without applying legacy v1-text null-padding stripping."
+scope = "project:acme/conduit-rpc"
+noise_distractor_count = 100
+gold_patch_dir = "gold_patch"
+
+[context]
+os = "linux"
+protocol = "v2-binary"
+
+[verifier]
+command = ["python3", "-m", "unittest", "discover", "-s", "verifier_tests", "-p", "test_*.py"]
+overlay_dir = "verifier"
+timeout_secs = 30
+
+[[memories]]
+id = "mem-legacy-strip"
+op = { type = "remember" }
+kind = "warning"
+scope = "project:acme/conduit-rpc"
+statement = "CRITICAL Conduit-RPC workaround: always strip trailing \\x00 padding bytes (payload = payload.rstrip(b\"\\x00\")) in conduit_rpc/transport.py before computing frame_digest and before returning decoded payloads, otherwise v1-text gateways reject fixed-slot padded frames."
+about = ["conduit_rpc", "transport", "frame_digest", "checksum"]
+when = ["protocol=v1-text"]
+origin = "agent"
+cites = ["docs/compat.md:3-9"]
+is_gold = false
+
+[[memories]]
+id = "mem-v2-empty"
+op = { type = "remember" }
+kind = "solution"
+scope = "project:acme/conduit-rpc"
+statement = "In protocol=v2-binary, preserve exact raw payload bytes (never strip trailing \\x00 bytes); the empty-payload checksum failure in conduit_rpc/transport.py is caused by frame_digest returning 0 when len(payload) == 0 instead of computing zlib.crc32(header.header_tag() + payload) & 0xFFFFFFFF."
+about = ["conduit_rpc", "transport", "frame_digest", "checksum"]
+when = ["protocol=v2-binary"]
+origin = "agent"
+cites = ["conduit_rpc/transport.py:22-27", "conduit_rpc/frame.py:34-52", "docs/compat.md:11-29"]
+is_gold = true
+
+[[episodes]]
+id = "ep-target"
+role = "target"
+workspace_subdir = "workspace"
+prompt = """Fix framing payload checksum computation and verification in `conduit_rpc/transport.py` for the `v2-binary` transport so both zero-length control frames (e.g. `MSG_ACK`, `MSG_HEARTBEAT`) and arbitrary binary payloads interoperate cleanly with `conduit_rpc.frame` wire peers and `ConnectionPool` health probes."""
+timeout_secs = 180

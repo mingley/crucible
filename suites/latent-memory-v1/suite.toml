@@ -1,0 +1,13 @@
+id = "latent-memory-v1"
+title = "Crucible Latent & Tribal Coding Memory Benchmark v1"
+description = "Eight multi-file, contamination-free Python 3 stdlib coding scenarios evaluating agent memory systems across handoff, supersession, contextual applicability, opaque error diagnosis, hypothesis retraction, external prompt-injection poisoning, hidden domain conventions, and two-episode earned memory chains."
+scenarios = [
+    "01-handoff-rate-limiter",
+    "02-superseded-wire-v3",
+    "03-branch-scoped-applicability",
+    "04-opaque-error-code-e47",
+    "05-retracted-hypothesis",
+    "06-poisoned-external-doc",
+    "07-hidden-domain-convention",
+    "08-earned-two-episode-chain",
+]

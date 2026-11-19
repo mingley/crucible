@@ -1,0 +1,37 @@
+id = "04-opaque-error-code-e47"
+title = "KestrelKV Opaque E47_MANIFEST_DRIFT on Multi-Byte UTF-8 Compaction"
+category = "diagnosis"
+description = "Diagnose and fix intermittent KestrelError(E47_MANIFEST_DRIFT) failures during multi-segment SSTable compaction with multi-byte UTF-8 keys."
+scope = "project:acme/kestrel-kv"
+noise_distractor_count = 100
+gold_patch_dir = "gold_patch"
+
+[context]
+component = "storage-engine"
+language = "python"
+
+[verifier]
+command = ["python3", "-m", "unittest", "discover", "-s", "verifier_tests", "-p", "test_*.py"]
+overlay_dir = "verifier"
+timeout_secs = 30
+
+[[memories]]
+id = "mem-e47-root-cause"
+op = { type = "remember" }
+kind = "solution"
+scope = "project:acme/kestrel-kv"
+statement = "E47_MANIFEST_DRIFT in kestrel_kv/block.py shortest_separator: compare str codepoints (never UTF-8 byte offsets), increment cp = ord(left_key[i]) + 1 jumping 0xD800..0xDFFF -> 0xE000, and return left_key[:i] + chr(cp) whenever cp < ord(right_key[i])."
+about = ["kestrel_kv", "E47_MANIFEST_DRIFT", "shortest_separator", "compaction"]
+origin = "agent"
+cites = ["kestrel_kv/block.py:11-30", "kestrel_kv/manifest.py:36-57"]
+quotes = ["E47_MANIFEST_DRIFT: segment fence invariant violated"]
+is_gold = true
+
+[[episodes]]
+id = "ep-target"
+role = "target"
+workspace_subdir = "workspace"
+prompt = """Multi-segment compaction in `kestrel_kv` intermittently raises `KestrelError("E47_MANIFEST_DRIFT")` when compacting SSTables containing multi-byte UTF-8 keys (such as accented Latin, Greek, CJK, or emoji prefixes), and point lookups around block boundaries can miss keys.
+
+Investigate the storage engine and fix the root cause without weakening `Manifest` or `Compactor` fence validation."""
+timeout_secs = 180

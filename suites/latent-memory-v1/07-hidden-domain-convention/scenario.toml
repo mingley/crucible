@@ -1,0 +1,40 @@
+id = "07-hidden-domain-convention"
+title = "TalonLedger FX Reversal Domain Conventions"
+category = "convention"
+description = "Implement LedgerService.post_fx_reversal in talon_ledger/service.py honoring TalonLedger's idempotency normalization, banker's rounding fee rebate, append-only double-entry journal, and audit conventions."
+scope = "project:acme/talon-ledger"
+noise_distractor_count = 100
+gold_patch_dir = "gold_patch"
+
+[context]
+component = "settlement-ledger"
+language = "python"
+
+[verifier]
+command = ["python3", "-m", "unittest", "discover", "-s", "verifier_tests", "-p", "test_*.py"]
+overlay_dir = "verifier"
+timeout_secs = 30
+
+[[memories]]
+id = "mem-talon-fx-reversal-conventions"
+op = { type = "remember" }
+kind = "decision"
+scope = "project:acme/talon-ledger"
+statement = "TalonLedger post_fx_reversal conventions (docs/policies/settlement-rules.md): (1) normalize idempotency_key with .strip().lower() (ValueError if blank or blank reason; return cached ReversalReceipt on same-tx replay, raise IdempotencyConflictError if key used on another tx_id, TransactionNotFoundError if tx_id unknown, AlreadyReversedError if tx_id already reversed under another key); (2) compute fee_rebate_minor = round_half_even_minor(Decimal(fee_minor) * Decimal(rebate_bps) / Decimal(10_000)) using banker's ROUND_HALF_EVEN in MinorUnits and refund_minor = principal_minor + fee_rebate_minor; (3) never mutate historical JournalLine rows—append two offsetting JournalLine rows via journal.append_balanced_pair(debit_account=house_account, credit_account=client_account, amount_minor=refund_minor) and emit AuditEvent with kind='FX_REVERSAL'."
+about = ["talon_ledger", "post_fx_reversal", "ROUND_HALF_EVEN", "idempotency_key", "FX_REVERSAL"]
+origin = "agent"
+cites = [
+    "talon_ledger/service.py:93-100",
+    "talon_ledger/rounding.py:18-21",
+    "docs/policies/settlement-rules.md:9-47",
+]
+is_gold = true
+
+[[episodes]]
+id = "ep-target"
+role = "target"
+workspace_subdir = "workspace"
+prompt = """Implement `LedgerService.post_fx_reversal(self, tx_id: str, idempotency_key: str, reason: str) -> ReversalReceipt` in `talon_ledger/service.py`.
+
+Follow TalonLedger's settlement accounting policies for idempotency key normalization and conflict handling, FX fee rebate rounding in minor units, append-only double-entry journal posting, and audit event emission."""
+timeout_secs = 180

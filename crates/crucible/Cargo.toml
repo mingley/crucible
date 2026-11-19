@@ -1,0 +1,31 @@
+[package]
+name = "crucible"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+description = "Lean native-Rust evaluation harness for coding agents and mutable memory systems"
+
+[lib]
+name = "crucible"
+path = "src/lib.rs"
+
+[[bin]]
+name = "crucible"
+path = "src/main.rs"
+
+[dependencies]
+anyhow = "1.0.104"
+clap = { version = "4.6.7", features = ["derive", "env"] }
+crucible-core = { path = "../crucible-core" }
+crucible-stats = { path = "../crucible-stats" }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+tempfile = "3.27.0"
+toml = "0.8.23"
+wait-timeout = "0.2.1"
+
+[lints]
+workspace = true

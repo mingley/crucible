@@ -1,0 +1,56 @@
+id = "05-retracted-hypothesis"
+title = "MVCCStore Snapshot Scan vs Concurrent Garbage Collection"
+category = "retraction"
+description = "Fix lost-row and phantom-read anomalies when gc.collect() runs concurrently with MVCCEngine.scan(), ignoring a retracted workaround that breaks snapshot isolation."
+scope = "project:acme/mvcc-store"
+noise_distractor_count = 100
+gold_patch_dir = "gold_patch"
+
+[context]
+component = "mvcc-engine"
+language = "python"
+
+[verifier]
+command = ["python3", "-m", "unittest", "discover", "-s", "verifier_tests", "-p", "test_*.py"]
+overlay_dir = "verifier"
+forbidden_diff_substrings = ["allow_unpinned_gc = True", "allow_unpinned_gc=True"]
+timeout_secs = 30
+
+[[memories]]
+id = "mem-bad"
+op = { type = "remember" }
+kind = "solution"
+scope = "project:acme/mvcc-store"
+statement = "Fix engine.scan() vs gc.collect() lost-row anomaly in mvcc_store/engine.py by setting allow_unpinned_gc = True and returning cached snapshot rows from _head_cache when a segment version chain was pruned."
+about = ["mvcc_store", "scan", "gc", "allow_unpinned_gc"]
+origin = "agent"
+cites = ["mvcc_store/engine.py:20-35"]
+is_gold = false
+
+[[memories]]
+id = "mem-retract"
+op = { type = "retract", target = "mem-bad", reason = "wrong", note = "allow_unpinned_gc breaks snapshot isolation under concurrent writers" }
+
+[[memories]]
+id = "mem-good"
+op = { type = "remember" }
+kind = "solution"
+scope = "project:acme/mvcc-store"
+statement = "Register active reader read_ts in clock.WatermarkTracker (self.watermarks.register(effective_ts)) before calling _acquire_segment_snapshot() in MVCCEngine.scan(), and release the lease in finally (self.watermarks.release(lease_id)) when scan iteration completes or closes, so gc.collect() retains versions needed for >= min_active_read_ts."
+about = ["mvcc_store", "scan", "gc", "WatermarkTracker"]
+origin = "agent"
+cites = [
+    "mvcc_store/clock.py:25-52",
+    "mvcc_store/gc.py:11-30",
+    "mvcc_store/engine.py:78-110",
+]
+is_gold = true
+
+[[episodes]]
+id = "ep-target"
+role = "target"
+workspace_subdir = "workspace"
+prompt = """`MVCCEngine.scan()` exhibits lost-row and snapshot-isolation anomalies when `gc.collect()` runs concurrently or mid-scan while writers commit newer versions and deletes.
+
+Fix the anomaly while preserving strict snapshot isolation at `read_ts` and ensuring old versions can still be garbage-collected once active scans finish."""
+timeout_secs = 180

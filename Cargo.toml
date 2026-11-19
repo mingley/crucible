@@ -1,0 +1,23 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/crucible-core",
+    "crates/crucible-stats",
+    "crates/crucible",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.89"
+license = "MIT"
+authors = ["Michael Ingley <michael.ingley@gmail.com>"]
+repository = "https://github.com/mingley/crucible"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_debug_implementations = "warn"
+
+[workspace.lints.clippy]
+dbg_macro = "warn"
+todo = "warn"

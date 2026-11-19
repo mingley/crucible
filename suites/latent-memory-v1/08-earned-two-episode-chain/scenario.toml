@@ -1,0 +1,34 @@
+id = "08-earned-two-episode-chain"
+title = "ChronosSched Two-Episode EpochTick and SLA Breach Chain"
+category = "earned_chain"
+description = "Two-episode sequential chain on chronos_sched: Episode 1 fixes cron_window.py and discovers the 250ms EpochTick, cumulative leap-offset table, and half-open tick-window invariants; Episode 2 implements compute_sla_breach_tick in sla_escalation.py."
+scope = "project:acme/chronos-sched"
+noise_distractor_count = 100
+gold_patch_dir = "gold_patch"
+
+[context]
+component = "scheduler"
+language = "python"
+
+[verifier]
+command = ["python3", "-m", "unittest", "discover", "-s", "verifier_tests", "-p", "test_*.py"]
+overlay_dir = "verifier"
+timeout_secs = 30
+
+[[episodes]]
+id = "ep1-history"
+role = "history"
+workspace_subdir = "episode1_workspace"
+prompt = """Fix the failing `compute_execution_window` implementation in `chronos_sched/cron_window.py` so `python3 -m unittest` passes.
+
+While investigating `chronos_sched`, verify the repository's `EpochTick` resolution, leap-window offset rules, and half-open `[start_tick, end_tick)` window conventions. Record the exact EpochTick millisecond resolution, every (cutover_wall_ms, delta_ticks) entry in LEAP_OFFSET_TABLE, and half-open [start_tick, end_tick) blackout window rules into persistent memory for downstream ChronosSched services."""
+timeout_secs = 180
+
+[[episodes]]
+id = "ep2-target"
+role = "target"
+workspace_subdir = "workspace"
+prompt = """Implement `compute_sla_breach_tick(enqueue_wall_ms: int, policy: SlaPolicy, blackout_windows: Sequence[tuple[int, int]] = ()) -> int` in `chronos_sched/sla_escalation.py` following ChronosSched's `EpochTick` timebase, leap-offset rules, and half-open maintenance blackout window semantics.
+
+Ensure `EscalationRunner` works accurately across both short and multi-day SLA budgets and blackout intervals."""
+timeout_secs = 180
