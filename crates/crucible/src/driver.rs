@@ -24,6 +24,7 @@ pub struct EpisodeRunRequest {
     pub scratch_dir: PathBuf,
     pub prompt: String,
     pub mcp_config_path: Option<PathBuf>,
+    pub copilot_settings_json: Option<String>,
     ///Scenario gold patch directory, inspected ONLY by offline [`ScriptedDriver`] in tests/dry-runs.
     pub gold_patch_source_dir: Option<PathBuf>,
     pub model: String,
@@ -114,6 +115,11 @@ impl CopilotDriver {
                     fs::write(dst_cfg, format!("{serialized}\n"))?;
                 }
             }
+        }
+
+        if let Some(settings_json) = &req.copilot_settings_json {
+            fs::write(home.join("settings.json"), settings_json)
+                .with_context(|| format!("write {}/settings.json", home.display()))?;
         }
 
         Ok(home)
@@ -931,6 +937,7 @@ printf '%s\n' '{{"type":"assistant.message","data":{{"toolRequests":[{{"toolCall
             scratch_dir: scratch.clone(),
             prompt: "Solve the bug.".into(),
             mcp_config_path: Some(mcp_cfg.clone()),
+            copilot_settings_json: None,
             gold_patch_source_dir: None,
             model: "claude-sonnet-5.5".into(),
             reasoning_effort: "medium".into(),

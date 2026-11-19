@@ -1,5 +1,5 @@
 {
-  "run_id": "latent-memory-v1-1795052655",
+  "run_id": "latent-memory-v1-1795059067",
   "suite_id": "latent-memory-v1",
   "model": "claude-sonnet-5.5",
   "baseline_arm": "b0",
@@ -10,24 +10,24 @@
       "scenarios": 8,
       "seeds_per_scenario": 3,
       "pass_at_1": {
-        "point": 0.5416666666666666,
+        "point": 0.5,
         "low": 0.20833333333333334,
-        "high": 0.875
+        "high": 0.7916666666666666
       },
-      "pass_all_seeds": 0.5,
-      "mean_wall_ms": 24715.083333333332,
-      "median_wall_ms": 25023.0,
-      "mean_tool_calls": 7.291666666666667,
+      "pass_all_seeds": 0.375,
+      "mean_wall_ms": 28353.708333333332,
+      "median_wall_ms": 26853.0,
+      "mean_tool_calls": 7.458333333333333,
       "mean_mcp_tool_calls": 0.0,
-      "mean_total_input_tokens": 196444.79166666666,
-      "mean_output_tokens": 3049.6666666666665,
-      "mean_cache_adjusted_usd": 0.15687937500000002,
-      "mean_uncached_equiv_usd": 0.635079375,
-      "mean_aiu": 8.645518749999999,
-      "cost_per_success_usd": 0.2896234615384615,
-      "uncached_cost_per_success_usd": 1.1724542307692307,
-      "aiu_per_success": 15.96095769230769,
-      "pareto_optimal": true
+      "mean_total_input_tokens": 198220.625,
+      "mean_output_tokens": 3089.5,
+      "mean_cache_adjusted_usd": 0.15798405625,
+      "mean_uncached_equiv_usd": 0.6410043750000001,
+      "mean_aiu": 8.701332083333334,
+      "cost_per_success_usd": 0.3159681125,
+      "uncached_cost_per_success_usd": 1.2820087500000001,
+      "aiu_per_success": 17.402664166666668,
+      "pareto_optimal": false
     },
     {
       "arm_id": "b1-notes",
@@ -35,24 +35,24 @@
       "scenarios": 8,
       "seeds_per_scenario": 3,
       "pass_at_1": {
-        "point": 0.9583333333333334,
-        "low": 0.875,
+        "point": 0.9166666666666666,
+        "low": 0.75,
         "high": 1.0
       },
       "pass_all_seeds": 0.875,
-      "mean_wall_ms": 28062.375,
-      "median_wall_ms": 25398.5,
-      "mean_tool_calls": 8.875,
+      "mean_wall_ms": 27643.666666666668,
+      "median_wall_ms": 24912.0,
+      "mean_tool_calls": 6.916666666666667,
       "mean_mcp_tool_calls": 0.0,
-      "mean_total_input_tokens": 278705.25,
-      "mean_output_tokens": 3406.9166666666665,
-      "mean_cache_adjusted_usd": 0.2306112375,
-      "mean_uncached_equiv_usd": 0.8872194999999999,
-      "mean_aiu": 12.865026666666667,
-      "cost_per_success_usd": 0.24063781304347828,
-      "uncached_cost_per_success_usd": 0.9257942608695651,
-      "aiu_per_success": 13.424375652173914,
-      "pareto_optimal": true
+      "mean_total_input_tokens": 246235.375,
+      "mean_output_tokens": 3033.8333333333335,
+      "mean_cache_adjusted_usd": 0.21549564375,
+      "mean_uncached_equiv_usd": 0.7842136249999999,
+      "mean_aiu": 12.182657916666665,
+      "cost_per_success_usd": 0.23508615681818182,
+      "uncached_cost_per_success_usd": 0.8555057727272726,
+      "aiu_per_success": 13.290172272727272,
+      "pareto_optimal": false
     },
     {
       "arm_id": "hivemind",
@@ -60,23 +60,23 @@
       "scenarios": 8,
       "seeds_per_scenario": 3,
       "pass_at_1": {
-        "point": 0.8333333333333334,
-        "low": 0.5833333333333334,
+        "point": 1.0,
+        "low": 1.0,
         "high": 1.0
       },
-      "pass_all_seeds": 0.75,
-      "mean_wall_ms": 25240.416666666668,
-      "median_wall_ms": 23420.0,
-      "mean_tool_calls": 9.25,
-      "mean_mcp_tool_calls": 1.5416666666666667,
-      "mean_total_input_tokens": 228018.875,
-      "mean_output_tokens": 3146.4166666666665,
-      "mean_cache_adjusted_usd": 0.17652524375,
-      "mean_uncached_equiv_usd": 0.7312528749999999,
-      "mean_aiu": 9.66478625,
-      "cost_per_success_usd": 0.21183029250000002,
-      "uncached_cost_per_success_usd": 0.8775034499999999,
-      "aiu_per_success": 11.5977435,
+      "pass_all_seeds": 1.0,
+      "mean_wall_ms": 23239.5,
+      "median_wall_ms": 21840.5,
+      "mean_tool_calls": 7.25,
+      "mean_mcp_tool_calls": 0.125,
+      "mean_total_input_tokens": 205206.45833333334,
+      "mean_output_tokens": 2711.375,
+      "mean_cache_adjusted_usd": 0.15348915,
+      "mean_uncached_equiv_usd": 0.6562899999999999,
+      "mean_aiu": 8.32914875,
+      "cost_per_success_usd": 0.15348915,
+      "uncached_cost_per_success_usd": 0.6562899999999999,
+      "aiu_per_success": 8.32914875,
       "pareto_optimal": true
     }
   ],
@@ -85,13 +85,13 @@
       "baseline_arm": "b0",
       "treatment_arm": "b1-notes",
       "paired_trials": 24,
-      "both_pass": 13,
-      "both_fail": 1,
+      "both_pass": 12,
+      "both_fail": 2,
       "rescued": 10,
       "harmed": 0,
       "rescue_rate": {
         "point": 0.4166666666666667,
-        "low": 0.125,
+        "low": 0.16666666666666666,
         "high": 0.7083333333333334
       },
       "harm_rate": {
@@ -102,28 +102,28 @@
       "preservation_harm_rate": 0.0,
       "net_pass_delta": {
         "point": 0.4166666666666667,
-        "low": 0.125,
+        "low": 0.16666666666666666,
         "high": 0.7083333333333334
       },
       "mcnemar_p_two_sided": 0.001953125,
-      "mcnemar_p_holm": 0.00390625,
-      "wilcoxon_cost_p_two_sided": 0.000241198491189882,
-      "wilcoxon_wall_ms_p_two_sided": 0.4662638609568516,
-      "wilcoxon_tokens_p_two_sided": 0.0014439712380942395,
+      "mcnemar_p_holm": 0.001953125,
+      "wilcoxon_cost_p_two_sided": 0.0019352064264367133,
+      "wilcoxon_wall_ms_p_two_sided": 0.7209848619016709,
+      "wilcoxon_tokens_p_two_sided": 0.014571504003492683,
       "underpowered": false
     },
     {
       "baseline_arm": "b0",
       "treatment_arm": "hivemind",
       "paired_trials": 24,
-      "both_pass": 13,
-      "both_fail": 4,
-      "rescued": 7,
+      "both_pass": 12,
+      "both_fail": 0,
+      "rescued": 12,
       "harmed": 0,
       "rescue_rate": {
-        "point": 0.2916666666666667,
-        "low": 0.08333333333333333,
-        "high": 0.5416666666666666
+        "point": 0.5,
+        "low": 0.20833333333333334,
+        "high": 0.7916666666666666
       },
       "harm_rate": {
         "point": 0.0,
@@ -132,15 +132,15 @@
       },
       "preservation_harm_rate": 0.0,
       "net_pass_delta": {
-        "point": 0.2916666666666667,
-        "low": 0.08333333333333333,
-        "high": 0.5416666666666666
+        "point": 0.5,
+        "low": 0.20833333333333334,
+        "high": 0.7916666666666666
       },
-      "mcnemar_p_two_sided": 0.015625,
-      "mcnemar_p_holm": 0.015625,
-      "wilcoxon_cost_p_two_sided": 0.4662638609568516,
-      "wilcoxon_wall_ms_p_two_sided": 0.5971027847182602,
-      "wilcoxon_tokens_p_two_sided": 0.16583416425651565,
+      "mcnemar_p_two_sided": 0.00048828125,
+      "mcnemar_p_holm": 0.0009765625,
+      "wilcoxon_cost_p_two_sided": 0.15727802971707205,
+      "wilcoxon_wall_ms_p_two_sided": 0.04397954495168266,
+      "wilcoxon_tokens_p_two_sided": 0.8081160667685606,
       "underpowered": false
     }
   ],
@@ -153,17 +153,17 @@
     "convention": {
       "b0": 0.0,
       "b1-notes": 1.0,
-      "hivemind": 0.3333333333333333
+      "hivemind": 1.0
     },
     "diagnosis": {
-      "b0": 1.0,
+      "b0": 0.6666666666666666,
       "b1-notes": 1.0,
       "hivemind": 1.0
     },
     "earned_chain": {
       "b0": 0.0,
-      "b1-notes": 0.6666666666666666,
-      "hivemind": 0.3333333333333333
+      "b1-notes": 0.3333333333333333,
+      "hivemind": 1.0
     },
     "handoff": {
       "b0": 0.0,

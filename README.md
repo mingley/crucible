@@ -126,33 +126,36 @@ Full trial ledgers (`manifest.json`, `trials.jsonl`, `report.md`, `report.json`)
 
 ### 1. Latent / Cross-Session Knowledge (`latent-memory-v1`, 100 distractors, $I(Y; M \mid X) > 0$)
 
-| Arm | Pass@1 [95% CI] | Pass^3 | Mean Wall (s) | Tool Calls (MCP) | Mean In / Out Tok | Mean Cost ($) | **Cost / Success ($)** | Mean AIU | Pareto |
+| Arm | Pass@1 [95% CI] | Pass^3 | Mean Wall (s) | Tool Calls (MCP) | Mean In / Out Tok | Mean Cost ($) | **Cost / Success ($)** | Mean AIU | **Pareto** |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `b0` (No Memory) | 54.2% [20.8%, 87.5%] | 50.0% | 24.72 | 7.3 (0.0) | 196,445 / 3,050 | $0.1569 | $0.2896 | 8.65 | Yes |
-| `b1-notes` (`AGENTS.md`) | **95.8%** [87.5%, 100.0%] | **87.5%** | 28.06 | 8.9 (0.0) | 278,705 / 3,407 | $0.2306 | $0.2406 | 12.87 | Yes |
-| `hivemind` (MCP) | **83.3%** [58.3%, 100.0%] | **75.0%** | 25.24 | 9.2 (1.5) | 228,019 / 3,146 | $0.1765 | **$0.2118** | 9.66 | Yes |
+| `b0` (No Memory) | 50.0% [20.8%, 79.2%] | 37.5% | 28.35 | 7.5 (0.0) | 198,221 / 3,090 | $0.1580 | $0.3160 | 8.70 | No |
+| `b1-notes` (`AGENTS.md`) | 91.7% [75.0%, 100.0%] | 87.5% | 27.64 | 6.9 (0.0) | 246,235 / 3,034 | $0.2155 | $0.2351 | 12.18 | No |
+| **`hivemind` (Brief + MCP)** | **100.0%** [100.0%, 100.0%] | **100.0%** | **23.24** | 7.2 (0.1) | **205,206 / 2,711** | **$0.1535** | **$0.1535** | **8.33** | **Yes (Sole)** |
 
-| Treatment vs. `b0` | Paired N | Rescued | Harmed | Rescue Rate [95% CI] | Harm Rate (Preservation) | Net Uplift [95% CI] | McNemar $p$ (Holm) | Wilcoxon Cost $p$ |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `b1-notes` vs. `b0` | 24 | 10 | 0 | 41.7% [12.5%, 70.8%] | 0.0% (100.0%) | +41.7% [+12.5%, +70.8%] | **0.0020 (0.0039)** | **0.0002** (+47% cost) |
-| `hivemind` vs. `b0` | 24 | 7 | 0 | 29.2% [8.3%, 54.2%] | 0.0% (100.0%) | +29.2% [+8.3%, +54.2%] | **0.0156 (0.0156)** | 0.4663 (+12% cost) |
+| Comparison | Paired N | Rescued | Harmed | Net Uplift [95% CI] | McNemar $p$ (Holm) | Wilcoxon Cost $p$ | Wilcoxon Time $p$ |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `hivemind` vs. `b0` | 24 | **12** | **0** | **+50.0%** [+20.8%, +79.2%] | **0.0005 (0.0010)** | 0.1573 (-2.8% cost) | **0.0440** (-18.0% time) |
+| `hivemind` vs. `b1-notes` | 24 | **2** | **0** | **+8.3%** [+0.0%, +25.0%] | 0.5000 | **<0.0001** (**-28.8% cost**) | **0.0023** (**-15.9% time**) |
 
 ### 2. Self-Documented Repository Control (`coding-memory-v1`, 40 distractors, $I(Y; M \mid X) \approx 0$)
 
-| Arm | Pass@1 [95% CI] | Pass^3 | Mean Wall (s) | Tool Calls (MCP) | Mean In / Out Tok | Mean Cost ($) | Cost / Success ($) | Mean AIU |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| `b0` (No Memory) | 95.8% [87.5%, 100.0%] | 87.5% | 22.94 | 7.0 (0.0) | 185,590 / 2,881 | $0.1482 | $0.1546 | 8.16 |
-| `b1-notes` (`AGENTS.md`) | 100.0% [100.0%, 100.0%] | 100.0% | 21.88 | 6.6 (0.0) | 189,705 / 2,718 | $0.1564 | $0.1564 | 8.70 |
-| `hivemind` (MCP) | 95.8% [87.5%, 100.0%] | 87.5% | 22.19 | 8.7 (1.4) | 198,856 / 2,824 | $0.1569 | $0.1637 | 8.63 |
+| Arm | Pass@1 [95% CI] | Pass^3 | Mean Wall (s) | Tool Calls (MCP) | Mean In / Out Tok | Mean Cost ($) | **Cost / Success ($)** | Mean AIU | **Pareto** |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `b0` (No Memory) | 95.8% [87.5%, 100.0%] | 87.5% | 24.38 | 7.7 (0.0) | 188,962 / 3,009 | $0.1523 | $0.1589 | 8.41 | No |
+| `b1-notes` (`AGENTS.md`) | 100.0% [100.0%, 100.0%] | 100.0% | 21.44 | 6.4 (0.0) | 177,710 / 2,535 | $0.1482 | $0.1482 | 8.26 | No |
+| **`hivemind` (Brief + MCP)** | **100.0%** [100.0%, 100.0%] | **100.0%** | **19.85** | **5.9** (0.0) | **173,667 / 2,374** | **$0.1329** | **$0.1329** | **7.26** | **Yes (Sole)** |
+
+| Comparison | Paired N | Rescued | Harmed | Net Uplift [95% CI] | McNemar $p$ | Wilcoxon Cost $p$ | Wilcoxon Time $p$ |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| `hivemind` vs. `b0` | 24 | 1 | 0 | +4.2% [+0.0%, +12.5%] | 1.0000 | **0.0031** (-12.7% cost) | **0.0011** (-18.6% time) |
+| `hivemind` vs. `b1-notes` | 24 | 0 | 0 | +0.0% [+0.0%, +0.0%] | 1.0000 | **0.0034** (**-10.3% cost**) | 0.2713 (-7.4% time) |
 
 ### Key Empirical Findings
 
-1. **Cost-per-Success Pareto Winner under Latent Knowledge:** When specifications are not already duplicated in `workspace/docs/`, `hivemind` lifts `Pass@1` from **54.2% to 83.3%** (`+29.2%`, exact McNemar $p = 0.0156$, **0 regressions / 100% preservation**) and achieves the **lowest Cost-per-Success of any arm (`$0.2118`)** — **26.9% cheaper per solved task than `b0` (`$0.2896`)** and **12.0% cheaper than static `AGENTS.md` (`$0.2406`)**.
-2. **The $O(N)$ Static-Notes Token Tax:** Growing `AGENTS.md` from 40 to 100 background notes inflated `b1-notes` input tokens by **+47%** (`189.7k` -> `278.7k`, Wilcoxon $p = 0.0002$, `+33%` AIU over `hivemind`). At multi-thousand-claim store sizes (`10k+` claims), flat `AGENTS.md` injection exceeds context budgets entirely while `hivemind` sub-millisecond indexed `recall` stays constant-size.
-3. **Lifecycle Hygiene (`retract` & `origin=external` quarantine):** On `05-retracted-hypothesis` (`latent-memory-v1`), `b1-notes` retained both the wrong and corrected hypotheses in `AGENTS.md`, averaging **44.7s / `$0.2785`** per trial to reconcile the contradiction, whereas `hivemind` purged the retracted claim from default `recall` and solved all 3 seeds in **33.4s / `$0.1920`** (**25% faster, 31% cheaper**). On `06-poisoned-external-doc`, `hivemind`'s `external` quarantine beat `b1-notes` by **24% cost** (`$0.1297` vs. `$0.1701`).
-4. **Actionable Failure Modes Surfaced in `hivemind`:**
-   - *Recall-card tail clipping (`coding-memory-v1` `04` seed=2):* When a >400-char claim puts an edge case (`0xD800..0xDFFF` surrogate skip) at the tail, compact `recall` cards truncate it unless the agent calls `hivemind show`.
-   - *Self-authored compression loss (`latent-memory-v1` `08` `Earned` chain):* `hivemind remember`'s schema prompt (*"One or two sentences written for a future reader"*) caused Episode 1 agents to transfer the `EpochTick` (`250ms`) and `LEAP_OFFSET_TABLE` 3/3 times, but drop a secondary boundary clause (`budget_ms=0` inside an active blackout) 2/3 times.
+1. **Strict Pareto Dominance Across Both Regimes (`48 / 48 = 100.0%`):** Combining `hivemind brief --hook-json` (Turn-0 BM25-ranked, taint-quarantined briefing), `Store::recall` adaptive top-$k$ card expansion, and content-addressed `BlobStore` cross-repo citation snapshots makes `hivemind` the **sole Pareto-optimal arm** on both `latent-memory-v1` and `coding-memory-v1` — beating `b1-notes` (`AGENTS.md`) on **Pass@1** (`100.0%` vs. `91.7%`), **Pass^3** (`100.0%` vs. `87.5%`), **Cost-per-Success** (`$0.1535` vs. `$0.2351`, **-34.7%**, Wilcoxon $p < 0.0001$), **Wall-Clock Latency** (`23.24s` vs. `27.64s`, **-15.9%**, Wilcoxon $p = 0.0023$), and **AIU** (`8.33` vs. `12.18`, **-31.6%**).
+2. **Eliminating Both the Static-Notes $O(N)$ Tax and the MCP Round-Trip Tax:** Pure MCP pull-only memory paid +1–2 extra LLM turns (`recall` -> `show`), while `AGENTS.md` stuffed every historical + distractor note into every turn (`+24%` tokens at 100 notes; unviable at `10k+` claims). `hivemind brief --hook-json` delivers **only** the top 1–3 high-confidence (`score >= 0.40 * top_score`), active, trusted, untruncated claims (~200 tokens) on Turn 0 with **zero extra API round-trips**.
+3. **Cross-Repo Earned Chains (`100.0%` vs. `33.3%` on `08-earned-two-episode-chain`):** Snapshotting small cited spec/source files into `BlobStore` on `remember` and hydrating them in `brief` *only* when absent in the downstream workspace lifted two-episode cross-repo accuracy from `33.3%` (`b1-notes`) and `0.0%` (`b0`) to **`100.0%`** while using **44% fewer tokens** than `b1-notes`.
+4. **Lifecycle Hygiene (`retract`, `supersede`, & `origin=external` quarantine):** On `05-retracted-hypothesis` (`latent-memory-v1`), `hivemind` solved all 3 seeds in **24.5s / `$0.1512`** vs. `b1-notes` **40.4s / `$0.2126`** (**39% faster, 29% cheaper**). On `06-poisoned-external-doc`, quarantining `origin=external` out of `brief` cut trial cost by **47%** vs. `b1-notes` (`$0.1056` vs. `$0.1985`).
 
 ---
 

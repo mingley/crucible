@@ -1,5 +1,5 @@
 {
-  "run_id": "coding-memory-v1-1795051685",
+  "run_id": "coding-memory-v1-1795057808",
   "suite_id": "coding-memory-v1",
   "model": "claude-sonnet-5.5",
   "baseline_arm": "b0",
@@ -15,19 +15,19 @@
         "high": 1.0
       },
       "pass_all_seeds": 0.875,
-      "mean_wall_ms": 22943.833333333332,
-      "median_wall_ms": 22493.0,
-      "mean_tool_calls": 7.0,
+      "mean_wall_ms": 24378.583333333332,
+      "median_wall_ms": 24537.5,
+      "mean_tool_calls": 7.666666666666667,
       "mean_mcp_tool_calls": 0.0,
-      "mean_total_input_tokens": 185590.375,
-      "mean_output_tokens": 2880.7916666666665,
-      "mean_cache_adjusted_usd": 0.14815634375,
-      "mean_uncached_equiv_usd": 0.599983,
-      "mean_aiu": 8.164022916666667,
-      "cost_per_success_usd": 0.1545979239130435,
-      "uncached_cost_per_success_usd": 0.6260692173913044,
-      "aiu_per_success": 8.518980434782609,
-      "pareto_optimal": true
+      "mean_total_input_tokens": 188961.5,
+      "mean_output_tokens": 3009.25,
+      "mean_cache_adjusted_usd": 0.152261825,
+      "mean_uncached_equiv_usd": 0.61202325,
+      "mean_aiu": 8.407394166666666,
+      "cost_per_success_usd": 0.1588819043478261,
+      "uncached_cost_per_success_usd": 0.6386329565217391,
+      "aiu_per_success": 8.772933043478261,
+      "pareto_optimal": false
     },
     {
       "arm_id": "b1-notes",
@@ -40,19 +40,19 @@
         "high": 1.0
       },
       "pass_all_seeds": 1.0,
-      "mean_wall_ms": 21884.208333333332,
-      "median_wall_ms": 19010.5,
-      "mean_tool_calls": 6.583333333333333,
+      "mean_wall_ms": 21435.333333333332,
+      "median_wall_ms": 20267.5,
+      "mean_tool_calls": 6.416666666666667,
       "mean_mcp_tool_calls": 0.0,
-      "mean_total_input_tokens": 189705.33333333334,
-      "mean_output_tokens": 2717.5416666666665,
-      "mean_cache_adjusted_usd": 0.15635174375000002,
-      "mean_uncached_equiv_usd": 0.609879125,
-      "mean_aiu": 8.696505,
-      "cost_per_success_usd": 0.15635174375000002,
-      "uncached_cost_per_success_usd": 0.609879125,
-      "aiu_per_success": 8.696505,
-      "pareto_optimal": true
+      "mean_total_input_tokens": 177709.625,
+      "mean_output_tokens": 2534.7916666666665,
+      "mean_cache_adjusted_usd": 0.14815899375,
+      "mean_uncached_equiv_usd": 0.5711507499999999,
+      "mean_aiu": 8.264907083333332,
+      "cost_per_success_usd": 0.14815899375,
+      "uncached_cost_per_success_usd": 0.5711507499999999,
+      "aiu_per_success": 8.264907083333332,
+      "pareto_optimal": false
     },
     {
       "arm_id": "hivemind",
@@ -60,24 +60,24 @@
       "scenarios": 8,
       "seeds_per_scenario": 3,
       "pass_at_1": {
-        "point": 0.9583333333333334,
-        "low": 0.875,
+        "point": 1.0,
+        "low": 1.0,
         "high": 1.0
       },
-      "pass_all_seeds": 0.875,
-      "mean_wall_ms": 22190.625,
-      "median_wall_ms": 21861.0,
-      "mean_tool_calls": 8.708333333333334,
-      "mean_mcp_tool_calls": 1.375,
-      "mean_total_input_tokens": 198855.625,
-      "mean_output_tokens": 2824.2083333333335,
-      "mean_cache_adjusted_usd": 0.15692028749999998,
-      "mean_uncached_equiv_usd": 0.63893,
-      "mean_aiu": 8.631959583333334,
-      "cost_per_success_usd": 0.16374290869565214,
-      "uncached_cost_per_success_usd": 0.6667095652173913,
-      "aiu_per_success": 9.007262173913045,
-      "pareto_optimal": false
+      "pass_all_seeds": 1.0,
+      "mean_wall_ms": 19854.75,
+      "median_wall_ms": 18484.0,
+      "mean_tool_calls": 5.875,
+      "mean_mcp_tool_calls": 0.0,
+      "mean_total_input_tokens": 173666.66666666666,
+      "mean_output_tokens": 2373.7916666666665,
+      "mean_cache_adjusted_usd": 0.1329451875,
+      "mean_uncached_equiv_usd": 0.5566068750000001,
+      "mean_aiu": 7.2575,
+      "cost_per_success_usd": 0.1329451875,
+      "uncached_cost_per_success_usd": 0.5566068750000001,
+      "aiu_per_success": 7.2575,
+      "pareto_optimal": true
     }
   ],
   "comparisons": [
@@ -107,40 +107,40 @@
       },
       "mcnemar_p_two_sided": 1.0,
       "mcnemar_p_holm": 1.0,
-      "wilcoxon_cost_p_two_sided": 0.31044643869663324,
-      "wilcoxon_wall_ms_p_two_sided": 0.17473582321524717,
-      "wilcoxon_tokens_p_two_sided": 0.6997082815835023,
+      "wilcoxon_cost_p_two_sided": 0.7209848619016709,
+      "wilcoxon_wall_ms_p_two_sided": 0.014571504003492683,
+      "wilcoxon_tokens_p_two_sided": 0.43203489200500755,
       "underpowered": true
     },
     {
       "baseline_arm": "b0",
       "treatment_arm": "hivemind",
       "paired_trials": 24,
-      "both_pass": 22,
+      "both_pass": 23,
       "both_fail": 0,
       "rescued": 1,
-      "harmed": 1,
+      "harmed": 0,
       "rescue_rate": {
         "point": 0.041666666666666664,
         "low": 0.0,
         "high": 0.125
       },
       "harm_rate": {
+        "point": 0.0,
+        "low": 0.0,
+        "high": 0.0
+      },
+      "preservation_harm_rate": 0.0,
+      "net_pass_delta": {
         "point": 0.041666666666666664,
         "low": 0.0,
         "high": 0.125
       },
-      "preservation_harm_rate": 0.043478260869565216,
-      "net_pass_delta": {
-        "point": 0.0,
-        "low": -0.125,
-        "high": 0.125
-      },
       "mcnemar_p_two_sided": 1.0,
       "mcnemar_p_holm": 1.0,
-      "wilcoxon_cost_p_two_sided": 0.12637072350224765,
-      "wilcoxon_wall_ms_p_two_sided": 0.12637072350224765,
-      "wilcoxon_tokens_p_two_sided": 0.0741455311114072,
+      "wilcoxon_cost_p_two_sided": 0.0031050422226327787,
+      "wilcoxon_wall_ms_p_two_sided": 0.0010700561556280525,
+      "wilcoxon_tokens_p_two_sided": 0.247213999419846,
       "underpowered": true
     }
   ],
@@ -158,7 +158,7 @@
     "diagnosis": {
       "b0": 1.0,
       "b1-notes": 1.0,
-      "hivemind": 0.6666666666666666
+      "hivemind": 1.0
     },
     "earned_chain": {
       "b0": 1.0,
